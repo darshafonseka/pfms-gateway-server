@@ -30,7 +30,8 @@ public class AuthServiceImpl implements AuthService {
             if( user == null){
                 throw new ApplicationException(GatewayServerCustomError.USER_NOT_FOUND);
             }
-            return jwtUtil.generateToken(authRequest.getEmail(), String.valueOf(user.getRole()));
+            System.out.println("userId:"+user.getUserId());
+            return jwtUtil.generateToken(authRequest.getEmail(), String.valueOf(user.getRole()),user.getUserId());
 
         } catch (HttpStatusCodeException e) {
             String errorMessage = ErrorMessageExtractor.extractErrorMessage(e.getResponseBodyAsString());

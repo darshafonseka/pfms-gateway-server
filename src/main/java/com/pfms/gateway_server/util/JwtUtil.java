@@ -16,13 +16,14 @@ public class JwtUtil {
 
     private static final String SECRET_KEY = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, String role, Integer userId ) {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
+                .claim("userId", userId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*15))
                 .signWith(getKey(), SignatureAlgorithm.HS256).compact();
