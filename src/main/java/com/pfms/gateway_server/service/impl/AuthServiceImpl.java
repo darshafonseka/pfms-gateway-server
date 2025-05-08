@@ -7,6 +7,7 @@ import com.pfms.gateway_server.request.AuthRequest;
 import com.pfms.gateway_server.service.AuthService;
 import com.pfms.gateway_server.util.ErrorMessageExtractor;
 import com.pfms.gateway_server.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +19,8 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtUtil jwtUtil;
 
-    private static final String AUTH_URL = "http://localhost:8081/api/user/login-validate";
+    @Value("${pfms.user-management.service.url}")
+    private String userManagementBaseUrl;
 
     public AuthServiceImpl(RestTemplate restTemplate, JwtUtil jwtUtil) {
         this.restTemplate = restTemplate;
@@ -28,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String userLogin(AuthRequest authRequest) {
         try {
-            UserDto user = restTemplate.postForObject(AUTH_URL, authRequest, UserDto.class);
+            UserDto user = restTemplate.postForObject(userManagementBaseUrl + "/user/login-validate", authRequest, UserDto.class);
             if( user == null){
                 throw new ApplicationException(GatewayServerCustomError.USER_NOT_FOUND);
             }
