@@ -18,6 +18,8 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtUtil jwtUtil;
 
+    private static final String AUTH_URL = "http://localhost:8081/api/user/login-validate";
+
     public AuthServiceImpl(RestTemplate restTemplate, JwtUtil jwtUtil) {
         this.restTemplate = restTemplate;
         this.jwtUtil = jwtUtil;
@@ -26,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String userLogin(AuthRequest authRequest) {
         try {
-            UserDto user = restTemplate.postForObject("http://localhost:8081/api/user/login-validate", authRequest, UserDto.class);
+            UserDto user = restTemplate.postForObject(AUTH_URL, authRequest, UserDto.class);
             if( user == null){
                 throw new ApplicationException(GatewayServerCustomError.USER_NOT_FOUND);
             }
