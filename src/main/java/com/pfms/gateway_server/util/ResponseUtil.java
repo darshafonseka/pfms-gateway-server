@@ -30,7 +30,7 @@ public class ResponseUtil {
     public static <T> ResponseEntity<ApiResponse<T>> badRequest(T data) {
         ApiResponse<T> response = new ApiResponse<>();
         response.setStatus(HttpStatus.BAD_REQUEST.value());
-        response.setCode("999");
+        response.setCode("400");
         response.setData(data);
         response.setChecksum("");
         return ResponseEntity.badRequest().body(response);
@@ -43,7 +43,7 @@ public class ResponseUtil {
     public static <T> ResponseEntity<ApiResponse<T>> internalServerError(String s) {
         ApiResponse<T> response = new ApiResponse<>();
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        response.setCode("999");
+        response.setCode("500");
         response.setData(null);
         response.setChecksum("");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
@@ -52,7 +52,7 @@ public class ResponseUtil {
     public static <T> ResponseEntity<ApiResponse<T>> badGateway(T data) {
         ApiResponse<T> response = new ApiResponse<>();
         response.setStatus(HttpStatus.BAD_GATEWAY.value());
-        response.setCode("999");
+        response.setCode("502");
         response.setData(data);
         response.setChecksum("");
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response);
